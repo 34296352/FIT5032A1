@@ -1,0 +1,16 @@
+[
+  {
+    "id": "walk-001",
+    "title": "Community Walking Group",
+    "location": "Carlton Gardens",
+    "description": "Weekly social walk.",
+    "state": "upcoming" 
+  },
+  {
+    "id": "star-101",
+    "title": "Stargazing Walks",
+    "location": "Clayton Mountain",
+    "description": "Gentle walk + stargazing.",
+    "state": "finished"
+  }
+]
