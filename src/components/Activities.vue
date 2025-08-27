@@ -10,15 +10,15 @@
 
     <hr />
 
-    <!-- 新增活动表单 -->
+    
     <h3>Add New Activity</h3>
     <form @submit.prevent="submitForm">
-      <!-- 标题 -->
+      
       <div class="mb-3">
         <label class="form-label">Title</label>
-        <input 
-          type="text" 
-          class="form-control" 
+        <input
+          type="text"
+          class="form-control"
           v-model="formData.title"
           @blur="validateTitle(true)"
           @input="validateTitle(false)"
@@ -26,11 +26,11 @@
         <div v-if="errors.title" class="text-danger">{{ errors.title }}</div>
       </div>
 
-      <!-- 描述 -->
+      
       <div class="mb-3">
         <label class="form-label">Description</label>
-        <textarea 
-          class="form-control" 
+        <textarea
+          class="form-control"
           v-model="formData.description"
           @blur="validateDescription(true)"
           @input="validateDescription(false)"
@@ -38,17 +38,20 @@
         <div v-if="errors.description" class="text-danger">{{ errors.description }}</div>
       </div>
 
-      <!-- 地点 -->
+      
       <div class="mb-3">
         <label class="form-label">Location</label>
-        <input 
-          type="text" 
-          class="form-control" 
+        <input
+          type="text"
+          class="form-control"
           v-model="formData.location"
+          @blur="validateLocation(true)"
+          @input="validateLocation(false)"
         />
+        <div v-if="errors.location" class="text-danger">{{ errors.location }}</div>
       </div>
 
-      <!-- 状态 -->
+      
       <div class="mb-3">
         <label class="form-label">Status</label>
         <select class="form-select" v-model="formData.status">
@@ -71,7 +74,7 @@ const activities = ref([
   { title: "Stargazing Walks", description: "Gentle walk + stargazing.", location: "Clayton Mountain", status: "finished" }
 ])
 
-// 表单数据
+
 const formData = ref({
   title: "",
   description: "",
@@ -79,42 +82,65 @@ const formData = ref({
   status: "upcoming"
 })
 
-// 错误信息
+
 const errors = ref({
   title: null,
-  description: null
+  description: null,
+  location: null
 })
 
-// 验证标题（最少 3 个字符）
+
 const validateTitle = (blur) => {
-  if (formData.value.title.length < 3) {
-    if (blur) errors.value.title = "Title must be at least 3 characters"
+  const value = formData.value.title.trim()
+  if (value === "") {
+    if (blur) errors.value.title = "Title cannot be empty"
+  } else if (!/[a-zA-Z]/.test(value)) {
+    if (blur) errors.value.title = "Title must contain at least one letter"
   } else {
     errors.value.title = null
   }
 }
 
-// 验证描述（最少 5 个字符）
+
 const validateDescription = (blur) => {
-  if (formData.value.description.trim().length < 5) {
-    if (blur) errors.value.description = "Description at least 5 characters"
+  const value = formData.value.description.trim()
+  if (value === "") {
+    if (blur) errors.value.description = "Description cannot be empty"
+  } else if (value.length < 3) {
+    if (blur) errors.value.description = "Description must be at least 3 characters"
+  } else if (!/[a-zA-Z]/.test(value)) {
+    if (blur) errors.value.description = "Description must contain at least one letter"
   } else {
     errors.value.description = null
   }
 }
 
-// 提交表单
+
+const validateLocation = (blur) => {
+  const value = formData.value.location.trim()
+  if (value === "") {
+    if (blur) errors.value.location = "Location cannot be empty"
+  } 
+   else if (!/[a-zA-Z]/.test(value)) {
+    if (blur) errors.value.location = "Location must contain at least one letter"
+  } else {
+    errors.value.location = null
+  }
+}
+
+
 const submitForm = () => {
   validateTitle(true)
   validateDescription(true)
+  validateLocation(true)
 
-  if (!errors.value.title && !errors.value.description) {
+  if (!errors.value.title && !errors.value.description && !errors.value.location) {
     activities.value.push({ ...formData.value })
     clearForm()
   }
 }
 
-// 清空表单
+
 const clearForm = () => {
   formData.value = {
     title: "",
