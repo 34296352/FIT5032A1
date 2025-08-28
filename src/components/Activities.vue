@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container my-4">
     <h2>Activity List</h2>
     <ul>
       <li v-for="(activity, index) in activities" :key="index">
@@ -8,63 +8,68 @@
       </li>
     </ul>
 
-    <hr />
+    <hr class="my-4" />
 
-    
-    <h3>Add New Activity</h3>
+    <h3 class="mb-3">Add New Activity</h3>
     <form @submit.prevent="submitForm">
-      
-      <div class="mb-3">
-        <label class="form-label">Title</label>
-        <input
-          type="text"
-          class="form-control"
-          v-model="formData.title"
-          @blur="validateTitle(true)"
-          @input="validateTitle(false)"
-        />
-        <div v-if="errors.title" class="text-danger">{{ errors.title }}</div>
-      </div>
+      <div class="row g-3">
+        <div class="col-12 col-sm-6 col-md-4">
+          <label class="form-label">Title</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="formData.title"
+            @blur="validateTitle(true)"
+            @input="validateTitle(false)"
+          />
+          <div v-if="errors.title" class="text-danger mt-1">{{ errors.title }}</div>
+        </div>
 
-      
-      <div class="mb-3">
-        <label class="form-label">Description</label>
-        <textarea
-          class="form-control"
-          v-model="formData.description"
-          @blur="validateDescription(true)"
-          @input="validateDescription(false)"
-        ></textarea>
-        <div v-if="errors.description" class="text-danger">{{ errors.description }}</div>
-      </div>
+        
+        <div class="col-12 col-sm-6 col-md-4">
+          <label class="form-label">Location</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="formData.location"
+            @blur="validateLocation(true)"
+            @input="validateLocation(false)"
+          />
+          <div v-if="errors.location" class="text-danger mt-1">{{ errors.location }}</div>
+        </div>
 
-      
-      <div class="mb-3">
-        <label class="form-label">Location</label>
-        <input
-          type="text"
-          class="form-control"
-          v-model="formData.location"
-          @blur="validateLocation(true)"
-          @input="validateLocation(false)"
-        />
-        <div v-if="errors.location" class="text-danger">{{ errors.location }}</div>
-      </div>
+        
+        <div class="col-12 col-sm-12 col-md-4">
+          <label class="form-label">Status</label>
+          <select class="form-select" v-model="formData.status">
+            <option value="upcoming">upcoming</option>
+            <option value="finished">finished</option>
+          </select>
+        </div>
 
-      
-      <div class="mb-3">
-        <label class="form-label">Status</label>
-        <select class="form-select" v-model="formData.status">
-          <option value="upcoming">upcoming</option>
-          <option value="finished">finished</option>
-        </select>
-      </div>
+        
+        <div class="col-12">
+          <label class="form-label">Description</label>
+          <textarea
+            class="form-control"
+            v-model="formData.description"
+            @blur="validateDescription(true)"
+            @input="validateDescription(false)"
+            rows="3"
+          ></textarea>
+          <div v-if="errors.description" class="text-danger mt-1">{{ errors.description }}</div>
+        </div>
 
-      <button type="submit" class="btn btn-primary">Submit</button>
-      <button type="button" class="btn btn-secondary" @click="clearForm">Clear</button>
+        
+        <div class="col-12 d-flex gap-2 justify-content-start justify-content-md-end">
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" class="btn btn-secondary" @click="clearForm">Clear</button>
+        </div>
+      </div>
     </form>
   </div>
 </template>
+
 
 <script setup>
 import { ref } from "vue"
